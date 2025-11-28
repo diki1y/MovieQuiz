@@ -3,7 +3,7 @@ import UIKit
 final class MovieQuizViewController: UIViewController {
     // MARK: - Lifecycle
     
-    struct QuizQuestion {
+    private struct  QuizQuestion {
         let image: String
         let text: String
         let correctAnswer: Bool
@@ -82,18 +82,12 @@ final class MovieQuizViewController: UIViewController {
     }
     
     @IBAction private func noButtonClicked(_ sender: UIButton) {
-        let currentQuestion = questions[currntQuestionIndex]
-        let givenAnswer = false
-        
-        showAnswerResult(isCorect: givenAnswer == currentQuestion.correctAnswer)
+        showAnswerResult(isCorect: !questions[currntQuestionIndex].correctAnswer)
         
     }
     
     @IBAction private func yesButtonClicked(_ sender: UIButton) {
-        let currentQuestion = questions[currntQuestionIndex]
-        let givenAnswer = true
-        
-        showAnswerResult(isCorect: givenAnswer == currentQuestion.correctAnswer)
+        showAnswerResult(isCorect: questions[currntQuestionIndex].correctAnswer)
     }
     
     private func convert(model: QuizQuestion) -> QuizStepViewModel {
@@ -171,4 +165,3 @@ final class MovieQuizViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
 }
-
