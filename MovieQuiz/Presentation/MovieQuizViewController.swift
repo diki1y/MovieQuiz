@@ -16,7 +16,6 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     private let questionsAmount: Int = 10
     private var questionFactory: QuestionFactoryProtocol?
     private var currentQuestion: QuizQuestion?
-    private var alertPresenter = AlertPresenter()
     private var statisticService: StatisticServiceProtocol!
     
     
@@ -53,7 +52,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     }
     
     @IBAction private func yesButtonClicked(_ sender: UIButton) {
-        guard let currentQuestion = currentQuestion else {           // пометка
+        guard let currentQuestion = currentQuestion else {
             return
         }
         showAnswerResult(isCorect: currentQuestion.correctAnswer)
@@ -116,30 +115,6 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         }
     }
     
-    /*
-     private func show(quiz result: QuizResultsViewModel) {
-     let alert = UIAlertController(
-     title: result.title,
-     message: result.text,
-     preferredStyle: .alert
-     )
-     
-     let action = UIAlertAction(
-     title: result.buttonText,
-     style: .default) { [weak self] _ in
-     guard let self else { return }
-     
-     self.currntQuestionIndex = 0
-     self.correctAnswers = 0
-     
-     self.questionFactory?.requestNextQuestion()
-     }
-     
-     alert.addAction(action)
-     self.present(alert, animated: true, completion: nil)
-     }
-     */
-    
     private func show(quiz result: QuizResultsViewModel) {
         
         let correct = correctAnswers
@@ -166,6 +141,6 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
             self.questionFactory?.requestNextQuestion()
         }
         
-        alertPresenter.show(in: self, model: model)
+        AlertPresenter.show(in: self, model: model)
     }
 }
