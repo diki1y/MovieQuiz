@@ -57,18 +57,14 @@ extension StatisticService: StatisticServiceProtocol {
     
     func store(correct count: Int, total amount: Int) {
         
-        // обновляем totalAnswers
         let correctAnswers = storage.integer(forKey: Keys.totalCorrectAnswers.rawValue)
         storage.set(correctAnswers + count, forKey: Keys.totalCorrectAnswers.rawValue)
         
-        // обновляем totalQuestionsAsked
         let totalQuestions = storage.integer(forKey: Keys.totalQuestionsAsked.rawValue)
         storage.set(totalQuestions + amount, forKey: Keys.totalQuestionsAsked.rawValue)
         
-        // увеличиваем количество игр
         gamesCount += 1
         
-        // проверяем рекорд
         let newGame = GameResult(correct: count, total: amount, date: Date())
         
         if newGame.isBetterThan(bestGame) {
