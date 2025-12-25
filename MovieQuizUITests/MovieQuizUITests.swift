@@ -7,7 +7,7 @@
 
 import XCTest
 
-class MovieQuizUITests: XCTestCase {
+final class MovieQuizUITests: XCTestCase {
     var app: XCUIApplication!
     
     override func setUpWithError() throws {
@@ -34,8 +34,6 @@ class MovieQuizUITests: XCTestCase {
         let alert = app.alerts["gameResultsAlert"]
         
         XCTAssertTrue(alert.exists)
-//        XCTAssertTrue(alert.label == "Этот раунд окончен!")
-//        XCTAssertTrue(alert.buttons.firstMatch.label == "Сыграть еще раз")
         XCTAssertEqual(
             alert.staticTexts.firstMatch.label,
             "Этот раунд окончен!"

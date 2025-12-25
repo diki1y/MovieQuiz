@@ -12,7 +12,6 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
     private let statisticService: StatisticServiceProtocol!
     private var questionFactory: QuestionFactoryProtocol?
     private weak var viewController: MovieQuizViewControllerProtocol?
-
     
     private let questionsAmount: Int = 10
     private var currentQuestion: QuizQuestion?
@@ -29,26 +28,25 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
         viewController.showLoadingIndicator()
     }
     
-    func didLoadDataFromServer() {
+     func didLoadDataFromServer() {
         viewController?.hideLoadingIndicator()
         questionFactory?.requestNextQuestion()
     }
     
-    func didFailToLoadData(with error: Error) {
+     func didFailToLoadData(with error: Error) {
         viewController?.hideLoadingIndicator()
         viewController?.showNetworkError(message: error.localizedDescription)
     }
     
-    
-    func isLastQuestion() -> Bool {
+    private func isLastQuestion() -> Bool {
         currentQuestionIndex == questionsAmount - 1
     }
     
-    func resetQuestionIndex() {
+    private func resetQuestionIndex() {
         currentQuestionIndex = 0
     }
     
-    func switchToNextQuestion() {
+    private func switchToNextQuestion() {
         currentQuestionIndex += 1
     }
     
@@ -73,12 +71,12 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
     }
     
     private func didAnswer(isYes: Bool) {
-        guard let currentQuestion = currentQuestion else { return }
+        guard let currentQuestion else { return }
         proceedWithAnswer(isCorrect: isYes == currentQuestion.correctAnswer)
     }
     
     func didReceiveNextQuestion(question: QuizQuestion?) {
-        guard let question = question else { return }
+        guard let question else { return }
         
         currentQuestion = question
         let viewModel = convert(model: question)
@@ -89,19 +87,18 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
         }
     }
     
-    
     func proceedToNextQuestionOrResults() {
         if isLastQuestion() {
             let text = correctAnswers == questionsAmount
             ? "Поздравляем, вы ответили на 10 из 10!"
             : "Вы ответили на \(correctAnswers) из 10, попробуйте ещё раз!"
-
+            
             let viewModel = QuizResultsViewModel(
                 title: "Этот раунд окончен!",
                 text: text,
-                buttonText: "Сыграть ещё раз"
+                buttonText: "Сыграть еще раз"
             )
-
+            
             viewController?.show(quiz: viewModel)
         } else {
             switchToNextQuestion()
